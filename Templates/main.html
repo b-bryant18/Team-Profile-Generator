@@ -13,18 +13,46 @@
         crossorigin="anonymous"></script>
 </head>
 
-<body>
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">${name}</h5>
-            <h5> ${Role}</h5>
-            <p class="card-text">ID: ${Id}</p>
-            <p class="card-text">Email ${Email}</p>
-            <p class="card-text">Role: ${Role}</p>
+<body id="top">
+    <main class="container">
+        <h1 class="title"> Employee Summary</h1>
+        <div class="card card-center">
+            <div class="card-body">
+                <h3 class="card-title">Team Members</h3>
+                <h5 class="card-title"> Total Team Members: {{ teamSize }}</h5>
+                <table class="card-text table table-summary table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Role</th>
+                            <th class="center">Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="numMgr">
+                            <th>Managers</th>
+                            <td>{{ numManagers}}</td>
+                        </tr>
+                        <tr class="numEng">
+                            <th>Engineers</th>
+                            <td>{{numEngineers}}</td>
+                        </tr>
+                        <tr class="numInt">
+                            <th>Interns</th>
+                            <td>{{numInterns}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-
+        <hr>
+        <div class = "content">
+            {{content}}
+        </div>
+    </main>
+    <footer>
+        <p> End of Team Listing</p>
+        <p><a href="#top">Top of Page</a></p>
+    </footer>
 </body>
 
 </html>

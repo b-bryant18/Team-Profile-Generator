@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
-const engineer = require("./lib/engineer");
-const intern = require("./lib/intern");
-const manager = require("./lib/manager");
+const Engineer = require("./lib/engineer");
+const Intern = require("./lib/intern");
+const Manager = require("./lib/manager");
 const validate = require("./lib/validate");
 const out = require("./lib/out");
 const report = require("./lib/report");
@@ -130,9 +130,9 @@ User Input response object with Employee Info responses
 function createTeamMember(input) {
     let employee;
 
-    swith(input.role) {
+    switch(input.role) {
         case "Engineer":
-        employee = new engineer(input.name, input.id, input.email, input.github);
+        employee = new Engineer(input.name, input.id, input.email, input.github);
         break;
             case "Intern":
         employee = new Intern(input.name, input.id, input.email, input.school);
@@ -181,34 +181,56 @@ async function addTeamMember(team, isManager) {
 
 //function init means initialize. It creates a new object.
 async function init() {
-const team = []; //Array to store team members
-let res; //hold the user responses
-let exitWhile = false; //Flag to tell us when to exit
+    const team = []; //Array to store team members
+    let res; //hold the user responses
+    let exitWhile = false; //Flag to tell us when to exit
 
-try {
-    //Start the main loop
-    out.debug("\nStarting the shell\n");
+    try {
+        //Start the main loop
+        out.debug("\nStarting the shell\n");
 
-    //Get manager details
-    await addTeamMember(team, true);
+        //Get Manager details
+        await addTeamMember(team, true);
 
-    do {
-        //Prompt the user and save responses
-        res = await inquirer.prompt(shellPrompt);
+        do {
+            //Prompt the user and save responses
+            res = await inquirer.prompt(shellPrompt);
 
-        //Check which command was entered
-        switch (res.cmd) {
-            //cmd = Add a New Team Member
-            case ADD_MEMBER_STR:
-                await addTeamMember(team, false);
-                break;
+            //Check which command was entered
+            switch (res.cmd) {
+                //cmd = Add a New Team Member
+                case ADD_MEMBER_STR:
+                    await addTeamMember(team, false);
+                    break;
 
                 //cmd = Generate a Report
-                case GENERATE_REPORT_STR
-        }
+                case GENERATE_REPORT_STR;
+                    await report.generate(team);
+                    break;
+
+                //cmd = Quit
+                case QUIT_STR:
+                    exitWhile = true; //Break the while
+                    break;
+
+                //cmd = unknown comman (Should not happen)
+                default:
+                    out.error("\nUnkown Command\n");
+                    break;
+            }
+
+            //Remain in this loop until the user tells us to quit
+        } while (!exitWhile);
+        //Out of main loop - exit
+        out.debug("\nEnding the shell\n");
+    } catch (err) {
+        //Error log
+        out.error("Error", err);
     }
 }
-}
+
+//Run program
+init();
 
 ////////////////
 //Make a function to create a manager,
